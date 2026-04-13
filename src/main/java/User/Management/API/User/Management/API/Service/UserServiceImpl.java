@@ -22,4 +22,28 @@ public class UserServiceImpl implements userService{
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    @Override
+    public User getUserById(long id)
+    {
+        return userRepository.findById(id)
+                .orElseThrow(()->new RuntimeException("User not found"));
+    }
+
+    @Override
+    public User updateUser(long id,User user)
+    {
+        User  updatedUser = userRepository.findById(id)
+                .orElseThrow(()->new RuntimeException("User not found"));
+
+        updatedUser.setName(user.getName());
+        updatedUser.setEmail(user.getEmail());
+        return userRepository.save(updatedUser);
+    }
+
+    @Override
+    public void deleteUser(long id)
+    {
+        userRepository.deleteById(id);
+    }
 }
